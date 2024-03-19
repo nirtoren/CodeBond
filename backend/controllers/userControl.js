@@ -15,7 +15,10 @@ exports.deleteUser = async (req, res, next) => {
 exports.getUserProfile = async (req, res, next) => {
     try{
         const user = await User.findById(req.user.id);
-        if (user) return res.status(200).json(user);
+        if (user){
+            return res.status(200).json(user);
+        }
+        return res.status(404).json({message: 'User not found'});
     } catch(err){
         console.log(err);
         res.status(500).send('Server Error');
@@ -51,6 +54,8 @@ exports.changeUserPassword = async (req, res, next) => {
         const {oldPassword, newPassword} = req.body;
         const user = await User.findById(req.user.id);
 
+        if (!user) return res.status(401).json({message: 'User not found'});
+
         const isPasswordMatch = await user.comparePassword(oldPassword);
         if (!isPasswordMatch){
             return res.status(400).json({message: "Invalid old password"});
@@ -69,5 +74,5 @@ exports.changeUserPassword = async (req, res, next) => {
 
 // POST api/users/forgot-password
 exports.resetUserPassword =  (req, res, next) => {
-    res.send('Home page');
+    res.send('resetUserPassword not implemented');
 };

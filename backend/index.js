@@ -27,6 +27,7 @@ app.use(morgan("common"));
 //Routes
 app.use("/api/users", userRoute.routes);
 app.use("/api/auth", authRoute.routes);
+app.use("/api/admin", adminRoute.routes);
 
 //Entry point
 app.listen(8800, () => {
