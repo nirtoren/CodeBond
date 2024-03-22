@@ -8,7 +8,7 @@ const morgan = require("morgan");
 
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
-
+const adminRoute = require("./routes/admin");
 
 //Connect to dotenv
 dotenv.config();

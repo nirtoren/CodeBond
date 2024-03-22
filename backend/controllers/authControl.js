@@ -1,7 +1,6 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-// const Permissions = require('../middleware/Permissions');
-const UserPermissions = ['create_post', 'create_comment', 'read_post', 'read_comment', 'update_own_profile', 'change_own_password'];
+const Permissions = require('../middleware/Permissions');
 
 
 exports.registerUser = async (req, res, next) => {
@@ -10,8 +9,7 @@ exports.registerUser = async (req, res, next) => {
         let user = await User.findOne({ email });
         if (user) return res.status(400).json({message: 'User already exists'});
 
-        user = new User({ username, email, password, role: UserPermissions});
-        console.log(user);
+        user = new User({ username, email, password, role: Permissions.user});
         await user.save();
         res.status(200).json({message: 'User successfully registered'});
     } catch(err){
@@ -32,7 +30,9 @@ exports.loginUser = async (req, res) => {
             user: {
               id: user.id,
               email: user.email,
-              role: user.role // Include user's role in the payload
+              role: user.role, // Include user's role in the payload
+              isAsmin: user.isAdmin,
+              isModerator: user.isModerator
             }
           };
         jwt.sign(payload, 'secretKey', {expiresIn: '1h'}, ( err, token ) => {
