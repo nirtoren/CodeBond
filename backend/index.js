@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const adminRoute = require("./routes/admin");
+const PostRoute = require("./routes/post");
 
 //Connect to dotenv
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(morgan("common"));
 app.use("/api/users", userRoute.routes);
 app.use("/api/auth", authRoute.routes);
 app.use("/api/admin", adminRoute.routes);
+app.use("/api/post", PostRoute.routes);
 
 //Entry point
 app.listen(8800, () => {
